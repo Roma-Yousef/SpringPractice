@@ -4,11 +4,15 @@ import java.util.ArrayList;
 //import java.util.Hashtable;
 //import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Model.Student;
 @Service
 public class StudentService {
+	
+	@Autowired
+	private StudentRepository studentRepository;
 	ArrayList<Student> Student = new ArrayList<Student>();
 	
 	public StudentService() {
@@ -33,7 +37,15 @@ public class StudentService {
 	    return null;
 	}
 	public ArrayList<Student> getAll() {
-		return Student;
+		
+			ArrayList<Student> students = new ArrayList<>();
+			studentRepository.findAll()
+			.forEach(students::add);
+			return students;
+		
+	}
+	public void addStudent(Student student) {
+		studentRepository.save(student);
 	}
 
 }
